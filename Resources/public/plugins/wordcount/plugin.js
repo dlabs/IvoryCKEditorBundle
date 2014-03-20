@@ -33,10 +33,11 @@ CKEDITOR.plugins.add('wordcount', {
         if (config.showCharCount) {
             var charLabel = editor.lang.wordcount[config.countHTML ? 'CharCountWithHTML' : 'CharCount'];
 
-            defaultFormat += charLabel + '&nbsp;%charCount%';
+            //defaultFormat += charLabel + '&nbsp;%charCount%';
 
             if (config.charLimit != 'unlimited') {
-                defaultFormat += '&nbsp;(' + editor.lang.wordcount.limit + '&nbsp;' + config.charLimit + ')';
+                //defaultFormat += '&nbsp;(' + editor.lang.wordcount.limit + '&nbsp;' + config.charLimit + ')';
+                defaultFormat += '<strong>%charLeftCount%</strong> characters left';
             }
         }
 
@@ -131,6 +132,10 @@ CKEDITOR.plugins.add('wordcount', {
             }
 
             var html = format.replace('%wordCount%', wordCount).replace('%charCount%', charCount);
+
+            if(config.charLimit != 'unlimited'){
+                html = html.replace('%charLeftCount%', parseInt(config.charLimit)-charCount);
+            }
 
             counterElement(editorInstance).innerHTML = html;
 
