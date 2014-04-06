@@ -67,16 +67,6 @@ CKEDITOR.plugins.add('wordcount', {
             return document.getElementById(counterId(editorInstance));
         }
 
-        function strip(html) {
-            var tmp = document.createElement("div");
-            tmp.innerHTML = html;
-
-            if (tmp.textContent == '' && typeof tmp.innerText == 'undefined') {
-				return '0';
-            }
-
-            return tmp.textContent || tmp.innerText;
-        }
 
         function updateCounter(editorInstance) {
             var wordCount = 0,
@@ -85,29 +75,13 @@ CKEDITOR.plugins.add('wordcount', {
                 text;
 
             if (text = editorInstance.getData()) {
+
                 if (config.showCharCount) {
                     if (config.countHTML) {
                         charCount = text.length;
                     } else {
-						// strip body tags
-                        if (editor.config.fullPage) {
-                            var i = text.search(new RegExp("<body>", "i"));
-                            if (i != -1) {
-                                var j = text.search(new RegExp("</body>", "i"));
-                                text = text.substring(i + 6, j);
-                            }
 
-                        }
-
-                        normalizedText = text.
-                            replace(/(\r\n|\n|\r)/gm, "").
-                            replace(/^\s+|\s+$/g, "").
-                            replace("&nbsp;", "").
-                            replace(/\s/g, "");
-
-                        normalizedText = strip(normalizedText).replace(/^([\s\t\r\n]*)$/, "");
-
-                        charCount = normalizedText.length;
+                        charCount = text.replace(/&(?:[a-z]+|#x?\d+);/g, 'x').replace(/<[^>]*>|\s/g, '').length;
                     }
                 }
 
