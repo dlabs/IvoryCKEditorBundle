@@ -34,6 +34,10 @@ blockquote
 	border-width: 0;
 }
 
+.TMPfldError {
+	background: #efccd7;
+}
+
 .cke_contents_ltr blockquote
 {
 	padding-left: 20px;

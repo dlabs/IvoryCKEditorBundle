@@ -5,7 +5,11 @@
 
 CKEDITOR.editorConfig = function( config ) {};
 CKEDITOR.on('instanceReady', function(e){
-    var className = $(e.editor.element.$).attr('class');
+    var origElement = $(e.editor.element.$);
+    var className = origElement.attr('class');
+    var erroorClass = origElement.hasClass('TMPfldError');
     $(e.editor.container.$).addClass(className);
+    if(erroorClass){
+        $(e.editor.document.$.body).addClass('TMPfldError');
+    }
 });
-
